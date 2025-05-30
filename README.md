@@ -1,10 +1,9 @@
-#Bento Maximo De Farias RA:1988175
-#Pedro Brene De Oliveira RA:2000033
-#Fernando cardamoni RA: 1960266
+    #Bento Maximo De Farias RA:1988175
+    #Pedro Brene De Oliveira RA:2000033
+    #Fernando cardamoni RA: 1960266
 
 
 from collections import deque
-# fernando
 class Jogador:
     def __init__(self, nome, posicao):
         self.nome = nome
@@ -72,7 +71,7 @@ class Campeonato:
         if not e1 or not e2:
             print("Uma das equipes não existe.")
             return
-#pedro
+
         self.partidas.append((eq1, pontos_eq1, pontos_eq2, eq2))
 
         def resultado(pontos_a, pontos_b, adversario):
@@ -103,7 +102,7 @@ class Campeonato:
             return
         equipe.listar_jogadores()
         equipe.mostrar_historico()
-#bento
+
 def menu():
     campe = Campeonato("Campeonato de Basquete")
 
