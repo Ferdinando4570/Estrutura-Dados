@@ -2,158 +2,161 @@
 #Pedro Brene De Oliveira RA:2000033
 #Fernando cardamoni RA: 1960266
 
-```python
-from collections import deque
+Documentação do Sistema de Campeonato de Basquete
+Introdução
+Este sistema foi desenvolvido para gerenciar um campeonato de basquete, permitindo a criação de equipes, adição de jogadores, registro de partidas, exibição de resultados e histórico de jogos. O código está estruturado em três classes principais e uma função de interface de menu para interação com o usuário.
 
-# fernando #
-class Jogador:
-    def __init__(self, nome, posicao):
-        self.nome = nome
-        self.posicao = posicao
-        self.pontos = 0
-        self.assistencias = 0
-        self.rebotes = 0
+Estrutura Geral do Código
+O código é dividido em três blocos principais:
 
-    def __str__(self):
-        return f"{self.nome} ({self.posicao}) - Pts: {self.pontos}, Ast: {self.assistencias}, Reb: {self.rebotes}"
+Classes de domínio: Representam jogadores, equipes e o campeonato.
 
-class Equipe:
-    def __init__(self, nome):
-        self.nome = nome
-        self.jogadores = []
-        self.historico = deque(maxlen=10)
+Estrutura de dados: Funções internas das classes para adicionar jogadores, registrar partidas e mostrar informações.
 
-    def adicionar_jogador(self, jogador):
-        self.jogadores.append(jogador)
-        print(f"Jogador {jogador.nome} adicionado à equipe {self.nome}.")
+Interface interativa: Permite a interação do usuário com o sistema via terminal.
 
-    def listar_jogadores(self):
-        if not self.jogadores:
-            print(f"Nenhum jogador na equipe {self.nome}.")
-            return
-        print(f"Jogadores da equipe {self.nome}:")
-        for j in self.jogadores:
-            print(f" - {j}")
 
-    def adicionar_partida(self, resultado):
-        self.historico.append(resultado)
+Classe Campeonato 
 
-    def mostrar_historico(self):
-        if not self.historico:
-            print(f"Sem histórico para a equipe {self.nome}.")
-            return
-        print(f"Últimas partidas da equipe {self.nome}:")
-        for r in self.historico:
-            print(f" - {r}")
+Objetivo: Gerenciar o campeonato, contendo as equipes participantes e as partidas disputadas.
 
-class Campeonato:
-    def __init__(self, nome):
-        self.nome = nome
-        self.equipes = {}
-        self.partidas = []
+Atributos:
 
-    def adicionar_equipe(self, nome):
-        if nome in self.equipes:
-            print(f"Equipe {nome} já existe.")
-            return
-        self.equipes[nome] = Equipe(nome)
-        print(f"Equipe {nome} adicionada.")
+nome (str): nome do campeonato.
 
-    def adicionar_jogador(self, nome_equipe, nome_jogador, posicao):
-        equipe = self.equipes.get(nome_equipe)
-        if not equipe:
-            print(f"Equipe {nome_equipe} não encontrada.")
-            return
-        jogador = Jogador(nome_jogador, posicao)
-        equipe.adicionar_jogador(jogador)
+equipes (dict): dicionário que mapeia nomes de equipes para seus objetos Equipe.
 
-    def registrar_partida(self, eq1, eq2, pontos_eq1, pontos_eq2):
-        e1 = self.equipes.get(eq1)
-        e2 = self.equipes.get(eq2)
-        if not e1 or not e2:
-            print("Uma das equipes não existe.")
-            return
+partidas (list): lista que armazena as partidas disputadas, com nomes das equipes e placares.
 
-        self.partidas.append((eq1, pontos_eq1, pontos_eq2, eq2))
 
-        def resultado(pontos_a, pontos_b, adversario):
-            if pontos_a > pontos_b:
-                return f"Venceu {pontos_a} x {pontos_b} contra {adversario}"
-            elif pontos_a < pontos_b:
-                return f"Perdeu {pontos_a} x {pontos_b} contra {adversario}"
-            else:
-                return f"Empatou {pontos_a} x {pontos_b} contra {adversario}"
 
-        e1.adicionar_partida(resultado(pontos_eq1, pontos_eq2, eq2))
-        e2.adicionar_partida(resultado(pontos_eq2, pontos_eq1, eq1))
 
-        print(f"Partida registrada: {eq1} {pontos_eq1} x {pontos_eq2} {eq2}")
+Métodos da classe Campeonato:
 
-    def mostrar_resultados(self):
-        if not self.partidas:
-            print("Nenhuma partida registrada.")
-            return
-        print("Resultados:")
-        for eq1, p1, p2, eq2 in self.partidas:
-            print(f"{eq1} {p1} x {p2} {eq2}")
+adicionar_equipe(self, nome):
 
-    def mostrar_info_equipe(self, nome_equipe):
-        equipe = self.equipes.get(nome_equipe)
-        if not equipe:
-            print("Equipe não encontrada.")
-            return
-        equipe.listar_jogadores()
-        equipe.mostrar_historico()
+Cria uma nova equipe e adiciona ao campeonato.
 
-# bento
-def menu():
-    campe = Campeonato("Campeonato de Basquete")
+Verifica se a equipe já existe antes de adicionar.
 
-    while True:
-        print("\n Menu do Campeonato ")
-        print("1 - Adicionar Equipe")
-        print("2 - Adicionar Jogador")
-        print("3 - Registrar Partida")
-        print("4 - Mostrar Resultados")
-        print("5 - Mostrar Info da Equipe")
-        print("6 - Sair")
+Exibe mensagem confirmando a adição ou indicando que já existe.
 
-        op = input("Opção: ").strip()
+adicionar_jogador(self, nome_equipe, nome_jogador, posicao):
 
-        if op == '1':
-            nome = input("Nome da equipe: ").strip()
-            campe.adicionar_equipe(nome)
+Localiza a equipe pelo nome.
 
-        elif op == '2':
-            equipe = input("Equipe: ").strip()
-            nome_jog = input("Nome do jogador: ").strip()
-            pos = input("Posição: ").strip()
-            campe.adicionar_jogador(equipe, nome_jog, pos)
+Cria um novo jogador e adiciona na equipe correspondente.
 
-        elif op == '3':
-            eq1 = input("Equipe 1: ").strip()
-            eq2 = input("Equipe 2: ").strip()
-            try:
-                g1 = int(input(f"Pontos {eq1}: "))
-                g2 = int(input(f"Pontos {eq2}: "))
-            except ValueError:
-                print("Pontos inválidos.")
-                continue
-            campe.registrar_partida(eq1, eq2, g1, g2)
+Caso equipe não exista, exibe mensagem de erro.
 
-        elif op == '4':
-            campe.mostrar_resultados()
+registrar_partida(self, eq1, eq2, pontos_eq1, pontos_eq2):
 
-        elif op == '5':
-            nome = input("Nome da equipe: ").strip()
-            campe.mostrar_info_equipe(nome)
+Recebe os nomes das duas equipes e seus respectivos pontos.
 
-        elif op == '6':
-            print("Saindo...")
-            break
+Verifica se ambas as equipes existem.
 
-        else:
-            print("Opção inválida.")
+Registra a partida na lista partidas.
 
-if __name__ == "__main__":
-    menu()
+Cria uma descrição do resultado para cada equipe (vitória, derrota ou empate).
+
+Adiciona o resultado no histórico de cada equipe.
+
+Exibe confirmação do registro da partida.
+
+mostrar_resultados(self):
+
+Exibe todas as partidas registradas no campeonato.
+
+Caso não tenha nenhuma partida, informa que não há resultados.
+
+mostrar_info_equipe(self, nome_equipe):
+
+Exibe as informações detalhadas da equipe (jogadores e histórico de partidas).
+
+Caso equipe não exista, informa que não foi encontrada.
+
+
+
+
+
+Função menu
+
+Objetivo: Fornecer uma interface de linha de comando para o usuário interagir com o sistema.
+
+Fluxo:
+
+Instancia um objeto Campeonato.
+
+Exibe um menu com opções numeradas:
+
+1: Adicionar equipe.
+
+2: Adicionar jogador.
+
+3: Registrar partida.
+
+4: Mostrar resultados.
+
+5: Mostrar informações da equipe.
+
+6: Sair do programa.
+
+Recebe a opção do usuário via input.
+
+Executa a ação correspondente chamando os métodos da classe Campeonato.
+
+Permite repetição contínua até o usuário optar por sair.
+
+Validação:
+
+Verifica entradas inválidas para pontos nas partidas.
+
+Informa erros para equipes não encontradas ou nomes já existentes.
+
+
+
+
+
+Como Executar o Programa 
+
+Exemplos de Uso
+Adicionar uma equipe:
+
+Usuário escolhe opção 1.
+
+Insere o nome da equipe, por exemplo, "São Paulo".
+
+O sistema confirma a criação da equipe.
+
+Adicionar jogadores à equipe:
+
+Escolhe opção 2.
+
+Insere o nome da equipe criada.
+
+Insere nome e posição do jogador, ex: "Carlos", "Armador".
+
+O sistema confirma o jogador adicionado.
+
+Registrar uma partida:
+
+Escolhe opção 3.
+
+Insere os nomes das duas equipes e seus pontos.
+
+O sistema registra o resultado e atualiza o histórico de ambas.
+
+Mostrar resultados:
+
+Escolhe opção 4 para ver a lista de partidas já disputadas.
+
+Mostrar informações da equipe:
+
+Escolhe opção 5.
+
+Insere o nome da equipe para visualizar seus jogadores e últimos jogos.
+
+
+
+
+
