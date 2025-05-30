@@ -1,12 +1,11 @@
-# Estrutura-Dados
 #Bento Maximo De Farias RA:1988175
 #Pedro Brene De Oliveira RA:2000033
 #Fernando cardamoni RA: 1960266
 
 
-    from collections import deque
-    #fernando
-    class Jogador:
+from collections import deque
+# fernando
+class Jogador:
     def __init__(self, nome, posicao):
         self.nome = nome
         self.posicao = posicao
@@ -17,7 +16,7 @@
     def __str__(self):
         return f"{self.nome} ({self.posicao}) - Pts: {self.pontos}, Ast: {self.assistencias}, Reb: {self.rebotes}"
 
-    class Equipe:
+class Equipe:
     def __init__(self, nome):
         self.nome = nome
         self.jogadores = []
@@ -46,7 +45,7 @@
         for r in self.historico:
             print(f" - {r}")
 
-    class Campeonato:
+class Campeonato:
     def __init__(self, nome):
         self.nome = nome
         self.equipes = {}
@@ -73,7 +72,7 @@
         if not e1 or not e2:
             print("Uma das equipes não existe.")
             return
-    #pedro
+#pedro
         self.partidas.append((eq1, pontos_eq1, pontos_eq2, eq2))
 
         def resultado(pontos_a, pontos_b, adversario):
@@ -104,8 +103,8 @@
             return
         equipe.listar_jogadores()
         equipe.mostrar_historico()
-    #bento
-    def menu():
+#bento
+def menu():
     campe = Campeonato("Campeonato de Basquete")
 
     while True:
@@ -154,5 +153,5 @@
         else:
             print("Opção inválida.")
 
-    if __name__ == "__main__":
+if __name__ == "__main__":
     menu()
