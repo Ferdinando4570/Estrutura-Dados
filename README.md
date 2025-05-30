@@ -1,9 +1,11 @@
-    #Bento Maximo De Farias RA:1988175
-    #Pedro Brene De Oliveira RA:2000033
-    #Fernando cardamoni RA: 1960266
+#Bento Maximo De Farias RA:1988175
+#Pedro Brene De Oliveira RA:2000033
+#Fernando cardamoni RA: 1960266
 
-
+```python
 from collections import deque
+
+# fernando #
 class Jogador:
     def __init__(self, nome, posicao):
         self.nome = nome
@@ -103,6 +105,7 @@ class Campeonato:
         equipe.listar_jogadores()
         equipe.mostrar_historico()
 
+# bento
 def menu():
     campe = Campeonato("Campeonato de Basquete")
 
